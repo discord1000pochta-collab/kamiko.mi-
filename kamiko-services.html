@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Услуги — Kamiko.mi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Unbounded:wght@200;300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --ink:     #07060c;
+  --deep:    #0c0b14;
+  --vessel:  #11101a;
+  --vein:    #181622;
+  --scar:    #201e2e;
+  --smoke:   #2c293f;
+
+  --blood:   #5c0f0f;
+  --blood2:  #7a1414;
+  --crimson: #9e1c1c;
+  --copper:  #b8622a;
+  --ember:   #c8903a;
+  --gold:    #dba94a;
+
+  --ash:     #cec8bc;
+  --bone:    #e8e2d4;
+  --fog:     #6a6480;
+  --mist:    #3d3a52;
+
+  --serif: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
+  --sans:  'Unbounded', Arial, sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+
+body {
+  background: var(--ink);
+  color: var(--ash);
+  font-family: var(--serif);
+  overflow-x: hidden;
+}
+
+/* ── ATMOSPHERE ── */
+.atmosphere {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 95% 5%,  rgba(92,15,15,0.14), transparent 55%),
+    radial-gradient(ellipse 50% 70% at 5%  90%,  rgba(92,15,15,0.09), transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(12,11,20,0.7),  transparent);
+}
+.grid-lines {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 400;
+  background: rgba(7,6,12,0.90);
+  border-bottom: 1px solid rgba(92,15,15,0.35);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+.nav-inner {
+  max-width: 1160px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem; height: 72px;
+}
+
+/* ── LOGO ── */
+.logo-wrap { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+.logo-emblem { flex-shrink: 0; }
+.logo-text { display: flex; flex-direction: column; gap: 3px; }
+.logo-name {
+  font-family: var(--sans); font-weight: 200;
+  font-size: 0.72rem; letter-spacing: 0.30em;
+  color: var(--bone); text-transform: uppercase;
+}
+.logo-sub {
+  font-family: var(--mono); font-size: 0.52rem;
+  letter-spacing: 0.20em; color: var(--fog);
+  text-transform: uppercase;
+}
+
+.nav-center { display: flex; list-style: none; gap: 0; }
+.nav-center a {
+  display: block; padding: 10px 20px;
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--fog); text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
+}
+.nav-center a:hover, .nav-center a.active {
+  color: var(--ember); border-bottom-color: var(--blood2);
+}
+
+.nav-discord {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.60rem;
+  letter-spacing: 0.10em; color: var(--fog);
+  text-decoration: none;
+  padding: 8px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.nav-discord:hover { color: var(--ember); border-color: rgba(92,15,15,0.6); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 88vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 8rem 3rem 5rem;
+  max-width: 1160px; margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Large background kanji as pure form — not decoration, but architecture */
+.hero-kanji {
+  position: absolute; right: -4rem; top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Noto Serif CJK JP', var(--serif);
+  font-size: 28rem; line-height: 1;
+  color: var(--blood);
+  opacity: 0.045;
+  pointer-events: none; user-select: none;
+  letter-spacing: -0.05em;
+}
+
+.hero-meta {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 3.5rem;
+}
+.hero-meta-line { width: 40px; height: 1px; background: var(--blood2); }
+.hero-meta-text {
+  font-family: var(--mono); font-size: 0.60rem;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--fog);
+}
+
+.hero-heading {
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(3.2rem, 7vw, 6.5rem);
+  line-height: 0.95; color: var(--bone);
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+}
+.hero-heading em {
+  font-style: italic; color: var(--ember);
+  font-weight: 300;
+}
+
+.hero-rule {
+  display: flex; align-items: center; gap: 0;
+  margin: 2.5rem 0;
+}
+.hero-rule-long { flex: 1; height: 1px; background: linear-gradient(90deg, var(--blood2), transparent); max-width: 320px; }
+.hero-rule-diamond {
+  width: 6px; height: 6px;
+  background: var(--blood2);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.hero-body {
+  font-size: 1.05rem; font-weight: 300; line-height: 1.85;
+  color: var(--fog); max-width: 480px; font-style: italic;
+}
+
+/* ── SECTION FRAME ── */
+.section-frame {
+  position: relative; z-index: 1;
+  max-width: 1160px; margin: 0 auto;
+  padding: 0 3rem 8rem;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 2rem;
+  margin-bottom: 4rem;
+}
+.sh-line { height: 1px; background: linear-gradient(90deg, transparent, var(--mist)); }
+.sh-line.right { background: linear-gradient(90deg, var(--mist), transparent); }
+.sh-label {
+  font-family: var(--mono); font-size: 0.60rem;
+  letter-spacing: 0.30em; text-transform: uppercase;
+  color: var(--blood2); white-space: nowrap;
+}
+
+/* ── SERVICE CARDS ── */
+.cards { display: flex; flex-direction: column; gap: 2px; }
+
+.card {
+  position: relative;
+  background: var(--vessel);
+  border: 1px solid var(--mist);
+  border-color: rgba(44,41,63,0.6);
+  overflow: hidden;
+  transition: border-color 0.4s;
+  cursor: pointer;
+}
+.card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--blood), var(--ember));
+  transform: scaleY(0); transform-origin: top;
+  transition: transform 0.4s ease;
+}
+.card:hover { border-color: rgba(92,15,15,0.5); }
+.card:hover::before { transform: scaleY(1); }
+.card.open { border-color: rgba(92,15,15,0.4); }
+.card.open::before { transform: scaleY(1); }
+
+.card-trigger {
+  display: grid;
+  grid-template-columns: 72px 1fr auto auto;
+  align-items: center; gap: 2rem;
+  padding: 2rem 2.5rem;
+  user-select: none;
+}
+
+/* Custom SVG icon cell */
+.card-icon-cell {
+  display: flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px;
+  border: 1px solid rgba(92,15,15,0.3);
+  background: rgba(92,15,15,0.07);
+  flex-shrink: 0;
+}
+
+.card-title-group { min-width: 0; }
+.card-title {
+  font-family: var(--serif); font-weight: 400;
+  font-size: 1.25rem; color: var(--bone);
+  letter-spacing: 0.01em; margin-bottom: 4px;
+}
+.card-subtitle {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.14em; color: var(--fog);
+  text-transform: uppercase;
+}
+
+.card-price-cell { text-align: right; flex-shrink: 0; }
+.card-price {
+  font-family: var(--serif); font-weight: 600;
+  font-size: 1.4rem; color: var(--ember);
+  display: block; letter-spacing: -0.01em;
+}
+.card-price-note {
+  font-family: var(--mono); font-size: 0.54rem;
+  color: var(--fog); letter-spacing: 0.10em;
+}
+
+.card-arrow {
+  flex-shrink: 0; margin-left: 1rem;
+  transition: transform 0.35s ease;
+  color: var(--blood2);
+}
+.card.open .card-arrow { transform: rotate(90deg); }
+
+/* ── CARD BODY ── */
+.card-body {
+  display: none; overflow: hidden;
+  border-top: 1px solid rgba(44,41,63,0.5);
+  padding: 2.5rem 2.5rem 2.5rem 7rem;
+  animation: bodyReveal 0.3s ease;
+}
+.card-body.open { display: block; }
+
+@keyframes bodyReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+
+.req-group {}
+.req-label {
+  font-family: var(--mono); font-size: 0.57rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--blood2); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.req-label::after { content: ''; flex: 1; height: 1px; background: rgba(92,15,15,0.25); }
+
+.req-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.req-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 0.92rem; color: var(--ash); line-height: 1.6; font-weight: 300;
+}
+.req-list li .bullet {
+  flex-shrink: 0; margin-top: 7px;
+}
+
+/* ── FLOW STEPS ── */
+.flow {
+  display: flex; gap: 0;
+  margin-top: 2rem; margin-bottom: 2rem;
+  border: 1px solid rgba(44,41,63,0.6);
+}
+.flow-step {
+  flex: 1; padding: 1rem 1.2rem;
+  border-right: 1px solid rgba(44,41,63,0.6);
+  position: relative;
+}
+.flow-step:last-child { border-right: none; }
+.flow-n {
+  font-family: var(--mono); font-size: 0.50rem;
+  letter-spacing: 0.2em; color: var(--blood2);
+  text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.flow-t {
+  font-family: var(--serif); font-size: 0.88rem;
+  color: var(--ash); font-weight: 300;
+}
+
+/* ── ADDONS ── */
+.addons { margin-top: 1.5rem; }
+.addon-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+.addon-pill {
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  background: var(--deep);
+  border: 1px solid rgba(44,41,63,0.5);
+  padding: 0.55rem 1rem;
+  min-width: 200px;
+}
+.addon-name { font-family: var(--serif); font-size: 0.85rem; color: var(--ash); font-weight: 300; }
+.addon-cost { font-family: var(--mono); font-size: 0.72rem; color: var(--ember); white-space: nowrap; }
+
+/* ── NOTICE BOX ── */
+.notice {
+  margin-top: 2rem;
+  display: flex; gap: 1rem;
+  background: rgba(92,15,15,0.06);
+  border: 1px solid rgba(92,15,15,0.2);
+  padding: 1.1rem 1.4rem;
+  font-family: var(--serif); font-size: 0.88rem;
+  color: var(--fog); line-height: 1.7; font-weight: 300; font-style: italic;
+}
+
+/* ── CTA BAND ── */
+.cta-band {
+  position: relative; z-index: 1;
+  background: var(--vessel);
+  border-top: 1px solid rgba(92,15,15,0.25);
+  border-bottom: 1px solid rgba(92,15,15,0.25);
+  text-align: center;
+  padding: 6rem 2rem;
+  overflow: hidden;
+}
+.cta-band-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(92,15,15,0.08), transparent);
+}
+.cta-kanji {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  font-family: 'Noto Serif CJK JP', var(--serif);
+  font-size: 20rem; line-height: 1;
+  color: var(--blood); opacity: 0.03;
+  pointer-events: none; user-select: none;
+}
+.cta-title {
+  font-family: var(--serif); font-weight: 300;
+  font-size: 2.8rem; color: var(--bone);
+  margin-bottom: 0.8rem; letter-spacing: -0.01em;
+}
+.cta-sub {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.18em; color: var(--fog);
+  text-transform: uppercase; margin-bottom: 2.5rem;
+}
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: linear-gradient(135deg, var(--blood), var(--blood2));
+  border: 1px solid rgba(200,144,58,0.25);
+  color: var(--bone);
+  font-family: var(--mono); font-size: 0.66rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 14px 36px; text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 8px 32px rgba(92,15,15,0.35);
+}
+.cta-btn:hover {
+  background: linear-gradient(135deg, var(--blood2), var(--crimson));
+  box-shadow: 0 12px 48px rgba(92,15,15,0.55);
+  transform: translateY(-2px);
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(44,41,63,0.5);
+  padding: 2.5rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-brand {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.18em; color: var(--mist);
+  text-transform: uppercase;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.12em; color: var(--mist);
+  text-decoration: none; transition: color 0.25s;
+}
+.footer-links a:hover { color: var(--ember); }
+</style>
+</head>
+<body>
+
+<div class="atmosphere"></div>
+<div class="grid-lines"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+
+    <a href="#" class="logo-wrap">
+      <!-- Custom SVG Emblem: blade + wisteria motif -->
+      <div class="logo-emblem">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer thin border ring -->
+          <rect x="1" y="1" width="42" height="42" stroke="#5c0f0f" stroke-width="0.6" fill="none"/>
+          <!-- Inner subtle ring -->
+          <rect x="4" y="4" width="36" height="36" stroke="#7a1414" stroke-width="0.3" fill="none" opacity="0.5"/>
+          <!-- Blade: vertical sharp line -->
+          <line x1="22" y1="5" x2="22" y2="30" stroke="#c8903a" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Blade edge highlight -->
+          <line x1="23.2" y1="6" x2="23.2" y2="28" stroke="#dba94a" stroke-width="0.4" stroke-linecap="round" opacity="0.6"/>
+          <!-- Tip — diamond point -->
+          <polygon points="22,3 23.5,6.5 22,8 20.5,6.5" fill="#c8903a"/>
+          <!-- Tsuba (guard) -->
+          <rect x="15" y="28" width="14" height="2.5" rx="0.5" fill="#5c0f0f" stroke="#c8903a" stroke-width="0.6"/>
+          <!-- Handle wrap lines -->
+          <line x1="19.5" y1="31" x2="24.5" y2="31" stroke="#7a1414" stroke-width="0.5" opacity="0.8"/>
+          <line x1="19.5" y1="33" x2="24.5" y2="33" stroke="#7a1414" stroke-width="0.5" opacity="0.6"/>
+          <line x1="19.5" y1="35" x2="24.5" y2="35" stroke="#7a1414" stroke-width="0.5" opacity="0.4"/>
+          <!-- Handle outline -->
+          <rect x="19.5" y="30.5" width="5" height="7" rx="0.5" fill="none" stroke="#5c0f0f" stroke-width="0.6"/>
+          <!-- Pommel -->
+          <rect x="20.5" y="38" width="3" height="2" rx="0.5" fill="#5c0f0f" stroke="#c8903a" stroke-width="0.4"/>
+          <!-- Side ornaments: small diamonds -->
+          <rect x="7" y="21" width="4" height="4" transform="rotate(45 9 23)" fill="none" stroke="#5c0f0f" stroke-width="0.5"/>
+          <rect x="33" y="21" width="4" height="4" transform="rotate(45 35 23)" fill="none" stroke="#5c0f0f" stroke-width="0.5"/>
+          <!-- Horizontal accent lines flanking blade -->
+          <line x1="5" y1="22" x2="15" y2="22" stroke="#5c0f0f" stroke-width="0.4" opacity="0.6"/>
+          <line x1="29" y1="22" x2="39" y2="22" stroke="#5c0f0f" stroke-width="0.4" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">Kamiko.mi</span>
+        <span class="logo-sub">Demon Slayer · Тайсё</span>
+      </div>
+    </a>
+
+    <ul class="nav-center">
+      <li><a href="#" class="active">Услуги</a></li>
+      <li><a href="#">Соглашение</a></li>
+    </ul>
+
+    <a href="https://discord.gg/JG3FEmt8Hy" class="nav-discord" target="_blank">
+      <!-- Custom Discord SVG -->
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+      </svg>
+      Discord
+    </a>
+
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-kanji">剣</div>
+
+  <div class="hero-meta">
+    <div class="hero-meta-line"></div>
+    <span class="hero-meta-text">Проект Kamiko.mi · Донат-система</span>
+  </div>
+
+  <h1 class="hero-heading">
+    Донат<br><em>Услуги</em>
+  </h1>
+
+  <div class="hero-rule">
+    <div class="hero-rule-long"></div>
+    <div class="hero-rule-diamond"></div>
+  </div>
+
+  <p class="hero-body">
+    Эксклюзивные возможности для участников проекта.<br>
+    Все заказы оформляются через донат-тикеты<br>
+    официального Discord-сервера Kamiko.mi.
+  </p>
+</section>
+
+<!-- ── CARDS ── -->
+<section class="section-frame">
+  <div class="section-header">
+    <div class="sh-line"></div>
+    <div class="sh-label">Каталог услуг</div>
+    <div class="sh-line right"></div>
+  </div>
+
+  <div class="cards">
+
+    <!-- ─ CARD 1: Личная модель ─ -->
+    <div class="card" id="c1">
+      <div class="card-trigger" onclick="toggleCard('c1')">
+        <div class="card-icon-cell">
+          <!-- Custom: stylized mask/face SVG -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <ellipse cx="14" cy="14" rx="10" ry="11" stroke="#7a1414" stroke-width="1"/>
+            <ellipse cx="14" cy="14" rx="10" ry="11" fill="none" stroke="#c8903a" stroke-width="0.4" opacity="0.4"/>
+            <line x1="14" y1="3" x2="14" y2="25" stroke="#5c0f0f" stroke-width="0.4" opacity="0.5"/>
+            <line x1="4" y1="14" x2="24" y2="14" stroke="#5c0f0f" stroke-width="0.4" opacity="0.5"/>
+            <ellipse cx="10" cy="11" rx="2.5" ry="2" stroke="#c8903a" stroke-width="0.7" fill="none"/>
+            <ellipse cx="18" cy="11" rx="2.5" ry="2" stroke="#c8903a" stroke-width="0.7" fill="none"/>
+            <path d="M10 18 Q14 21 18 18" stroke="#c8903a" stroke-width="0.7" fill="none"/>
+            <circle cx="10" cy="11" r="0.8" fill="#c8903a" opacity="0.6"/>
+            <circle cx="18" cy="11" r="0.8" fill="#c8903a" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="card-title-group">
+          <div class="card-title">Личная модель с нуля</div>
+          <div class="card-subtitle">Уникальный персонаж · Япония нач. XX в.</div>
+        </div>
+        <div class="card-price-cell">
+          <span class="card-price">от 2 000 ₽</span>
+          <span class="card-price-note">+ допуслуги</span>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="4" y1="8" x2="12" y2="8" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round"/>
+            <polyline points="9,5 12,8 9,11" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-body" id="b-c1">
+        <div class="two-col">
+          <div class="req-group">
+            <div class="req-label">Требования</div>
+            <ul class="req-list">
+              <li>
+                <svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>
+                Тематика соответствует серверу
+              </li>
+              <li>
+                <svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>
+                Внешность — Япония начала XX века
+              </li>
+              <li>
+                <svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>
+                Подготовьте документ по установленной форме
+              </li>
+            </ul>
+          </div>
+          <div class="req-group">
+            <div class="req-label">В документе укажите</div>
+            <ul class="req-list">
+              <li>
+                <svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>
+                Название модели
+              </li>
+              <li>
+                <svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>
+                Описание: пол, внешность, одежда, особенности
+              </li>
+              <li>
+                <svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>
+                Концепт-арт желаемого результата
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="flow">
+          <div class="flow-step"><div class="flow-n">01</div><div class="flow-t">Документ</div></div>
+          <div class="flow-step"><div class="flow-n">02</div><div class="flow-t">Согласование</div></div>
+          <div class="flow-step"><div class="flow-n">03</div><div class="flow-t">Оплата</div></div>
+          <div class="flow-step"><div class="flow-n">04</div><div class="flow-t">Готово</div></div>
+        </div>
+        <div class="addons">
+          <div class="req-label">Дополнительные услуги</div>
+          <div class="addon-grid">
+            <div class="addon-pill"><span class="addon-name">Бодигруппы (маски, сумки)</span><span class="addon-cost">500–1500 ₽</span></div>
+            <div class="addon-pill"><span class="addon-name">Сборка модели</span><span class="addon-cost">от 2 000 ₽</span></div>
+            <div class="addon-pill"><span class="addon-name">Личное оружие</span><span class="addon-cost">от 1 500 ₽</span></div>
+          </div>
+        </div>
+        <div class="notice">
+          После подготовки документа заказ согласовывается с донат-менеджером. При принятии всех условий производится оплата.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ CARD 2: Личное оружие ─ -->
+    <div class="card" id="c2">
+      <div class="card-trigger" onclick="toggleCard('c2')">
+        <div class="card-icon-cell">
+          <!-- Custom: sword SVG -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <line x1="14" y1="3" x2="14" y2="22" stroke="#c8903a" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="15.2" y1="4" x2="15.2" y2="20" stroke="#dba94a" stroke-width="0.5" stroke-linecap="round" opacity="0.5"/>
+            <polygon points="14,1 15.4,4.5 14,6 12.6,4.5" fill="#c8903a"/>
+            <rect x="9" y="21" width="10" height="2" rx="0.4" fill="#7a1414" stroke="#c8903a" stroke-width="0.5"/>
+            <rect x="12" y="23" width="4" height="5" rx="0.3" fill="none" stroke="#5c0f0f" stroke-width="0.6"/>
+            <line x1="11" y1="25" x2="17" y2="25" stroke="#5c0f0f" stroke-width="0.4" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="card-title-group">
+          <div class="card-title">Личное оружие</div>
+          <div class="card-subtitle">Эпоха Мэйдзи — Тайсё</div>
+        </div>
+        <div class="card-price-cell">
+          <span class="card-price">от 1 500 ₽</span>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="4" y1="8" x2="12" y2="8" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round"/>
+            <polyline points="9,5 12,8 9,11" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-body" id="b-c2">
+        <div class="two-col">
+          <div class="req-group">
+            <div class="req-label">Требования</div>
+            <ul class="req-list">
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Оружие соответствует тематике сервера</li>
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Эпоха: Мэйдзи — Тайсё</li>
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Документ по установленной форме</li>
+            </ul>
+          </div>
+          <div class="req-group">
+            <div class="req-label">В документе укажите</div>
+            <ul class="req-list">
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>Название оружия</li>
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>Концепт-арт со всех сторон</li>
+            </ul>
+          </div>
+        </div>
+        <div class="notice">
+          После согласования с донат-менеджером или его ассистентом производится оплата.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ CARD 3: Дыхание / Магия крови ─ -->
+    <div class="card" id="c3">
+      <div class="card-trigger" onclick="toggleCard('c3')">
+        <div class="card-icon-cell">
+          <!-- Custom: flame/breath SVG -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 25 C8 25 5 20 6 15 C7 11 10 9 10 6 C12 9 11 12 14 13 C14 10 15 7 18 5 C18 10 16 13 18 16 C20 13 21 10 20 7 C23 11 24 16 22 20 C20 24 17 25 14 25Z" stroke="#c8903a" stroke-width="0.8" fill="rgba(92,15,15,0.15)"/>
+            <path d="M14 25 C10 25 8 21 9 18 C10 16 12 15 13 13 C13 16 14 18 14 20 C15 18 16 16 15 13 C17 15 18 18 17 21 C16 23 15 25 14 25Z" stroke="#7a1414" stroke-width="0.5" fill="rgba(122,20,20,0.2)"/>
+            <circle cx="14" cy="19" r="2" stroke="#dba94a" stroke-width="0.5" fill="none" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="card-title-group">
+          <div class="card-title">Личное дыхание / Магия крови</div>
+          <div class="card-subtitle">Стилистика Demon Slayer · Уникальная техника</div>
+        </div>
+        <div class="card-price-cell">
+          <span class="card-price">от 3 000 ₽</span>
+          <span class="card-price-note">+ допуслуги</span>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="4" y1="8" x2="12" y2="8" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round"/>
+            <polyline points="9,5 12,8 9,11" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-body" id="b-c3">
+        <div class="req-group" style="margin-bottom:2rem">
+          <div class="req-label">В документе укажите</div>
+          <ul class="req-list">
+            <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Название дыхания или магии крови</li>
+            <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>История возникновения</li>
+            <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Концепт-арт в стилистике Demon Slayer</li>
+          </ul>
+        </div>
+        <div class="addons">
+          <div class="req-label">Дополнительные услуги</div>
+          <div class="addon-grid">
+            <div class="addon-pill"><span class="addon-name">Профессия Цугуко</span><span class="addon-cost">200 ₽</span></div>
+            <div class="addon-pill"><span class="addon-name">Инструктор / Истребитель</span><span class="addon-cost">150 ₽</span></div>
+          </div>
+        </div>
+        <div class="notice">
+          После согласования с донат-менеджером производится оплата.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ CARD 4: Личное поместье ─ -->
+    <div class="card" id="c4">
+      <div class="card-trigger" onclick="toggleCard('c4')">
+        <div class="card-icon-cell">
+          <!-- Custom: torii gate SVG -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <line x1="5" y1="10" x2="23" y2="10" stroke="#c8903a" stroke-width="1.2"/>
+            <line x1="4" y1="13" x2="24" y2="13" stroke="#7a1414" stroke-width="0.8"/>
+            <line x1="9" y1="10" x2="9" y2="25" stroke="#c8903a" stroke-width="1"/>
+            <line x1="19" y1="10" x2="19" y2="25" stroke="#c8903a" stroke-width="1"/>
+            <line x1="3" y1="10" x2="6" y2="7" stroke="#7a1414" stroke-width="0.6" stroke-linecap="round"/>
+            <line x1="25" y1="10" x2="22" y2="7" stroke="#7a1414" stroke-width="0.6" stroke-linecap="round"/>
+            <line x1="6" y1="7" x2="22" y2="7" stroke="#7a1414" stroke-width="0.6"/>
+            <line x1="12" y1="18" x2="16" y2="18" stroke="#5c0f0f" stroke-width="0.5" opacity="0.6"/>
+            <line x1="12" y1="21" x2="16" y2="21" stroke="#5c0f0f" stroke-width="0.5" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="card-title-group">
+          <div class="card-title">Личное поместье</div>
+          <div class="card-subtitle">Архитектура Японии нач. XX в. · Большая территория</div>
+        </div>
+        <div class="card-price-cell">
+          <span class="card-price">от 5 000 ₽</span>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="4" y1="8" x2="12" y2="8" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round"/>
+            <polyline points="9,5 12,8 9,11" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-body" id="b-c4">
+        <div class="two-col">
+          <div class="req-group">
+            <div class="req-label">Требования</div>
+            <ul class="req-list">
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Архитектура Японии начала XX века</li>
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Документ по установленной форме</li>
+            </ul>
+          </div>
+          <div class="req-group">
+            <div class="req-label">В документе укажите</div>
+            <ul class="req-list">
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>Название поместья</li>
+              <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#5c0f0f"/></svg>Концепт-арт желаемого поместья</li>
+            </ul>
+          </div>
+        </div>
+        <div class="notice">
+          Ваше личное поместье с большой территорией в полном распоряжении. После согласования с донат-менеджером производится оплата.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ CARD 5: Свой заказ ─ -->
+    <div class="card" id="c5">
+      <div class="card-trigger" onclick="toggleCard('c5')">
+        <div class="card-icon-cell">
+          <!-- Custom: scroll/brush SVG -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="7" y="5" width="14" height="18" rx="1" stroke="#7a1414" stroke-width="0.8" fill="rgba(92,15,15,0.08)"/>
+            <line x1="10" y1="9" x2="18" y2="9" stroke="#c8903a" stroke-width="0.7" stroke-linecap="round"/>
+            <line x1="10" y1="12" x2="18" y2="12" stroke="#c8903a" stroke-width="0.7" stroke-linecap="round" opacity="0.6"/>
+            <line x1="10" y1="15" x2="15" y2="15" stroke="#7a1414" stroke-width="0.7" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="20" cy="20" r="4" fill="rgba(12,11,20,1)" stroke="#c8903a" stroke-width="0.8"/>
+            <line x1="20" y1="17.5" x2="20" y2="19.5" stroke="#c8903a" stroke-width="0.8" stroke-linecap="round"/>
+            <line x1="20" y1="20.5" x2="20" y2="22.5" stroke="#c8903a" stroke-width="0.8" stroke-linecap="round"/>
+            <line x1="17.5" y1="20" x2="19.5" y2="20" stroke="#c8903a" stroke-width="0.8" stroke-linecap="round"/>
+            <line x1="20.5" y1="20" x2="22.5" y2="20" stroke="#c8903a" stroke-width="0.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-title-group">
+          <div class="card-title">Свой заказ</div>
+          <div class="card-subtitle">Индивидуальное предложение · Цена договорная</div>
+        </div>
+        <div class="card-price-cell">
+          <span class="card-price" style="font-size:1.1rem; color: var(--ash);">Договорная</span>
+        </div>
+        <div class="card-arrow">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <line x1="4" y1="8" x2="12" y2="8" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round"/>
+            <polyline points="9,5 12,8 9,11" stroke="#7a1414" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-body" id="b-c5">
+        <div class="req-group" style="margin-bottom:2rem">
+          <div class="req-label">В документе укажите</div>
+          <ul class="req-list">
+            <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Название заказа</li>
+            <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Подробное описание</li>
+            <li><svg class="bullet" width="6" height="6" viewBox="0 0 6 6"><rect x="0" y="0" width="6" height="6" transform="rotate(45 3 3)" fill="#7a1414"/></svg>Концепт-арт желаемого результата</li>
+          </ul>
+        </div>
+        <div class="notice">
+          Мы готовы рассматривать любые индивидуальные предложения. После согласования с донат-менеджером производится оплата.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-band">
+  <div class="cta-band-bg"></div>
+  <div class="cta-kanji">刀</div>
+  <h2 class="cta-title">Готовы сделать заказ?</h2>
+  <p class="cta-sub">Откройте донат-тикет на официальном сервере</p>
+  <a href="https://discord.gg/JG3FEmt8Hy" class="cta-btn" target="_blank">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+    </svg>
+    Открыть тикет на Discord
+  </a>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="footer-brand">© Kamiko.mi Demon Slayer</span>
+  <div class="footer-links">
+    <a href="https://discord.com/users/498849969424302082" target="_blank">grandillo</a>
+    <a href="https://discord.gg/JG3FEmt8Hy" target="_blank">Discord</a>
+    <a href="#">Соглашение</a>
+  </div>
+</footer>
+
+<script>
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  const body = document.getElementById('b-' + id);
+  const isOpen = card.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.card-body').forEach(b => b.classList.remove('open'));
+
+  if (!isOpen) {
+    card.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+// Subtle entrance animation for cards
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, i * 60);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.05 });
+
+document.querySelectorAll('.card').forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(16px)';
+  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.4s';
+  observer.observe(card);
+});
+</script>
+
+</body>
+</html>
